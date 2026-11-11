@@ -6,6 +6,7 @@ import {connectDB, disconnectDB} from "./config/db.js";
 import exerciceRoute from "./routes/exerciceRoute.js";
 import workoutRoute from "./routes/workoutRoute.js";
 import healthRoute from "./routes/healthRoute.js";
+import {notFound, errorHandler} from "./middleware/errorMiddleware.js";
 
 config();
 connectDB();
@@ -20,6 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/health", healthRoute);
 app.use("/exercices", exerciceRoute);
 app.use("/workouts", workoutRoute);
+
+// Unmatched routes, then errors from all routes and middleware.
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 
