@@ -14,6 +14,7 @@ La BD PostgreSQL utilisée par l'API a été hébergée sur la plateforme NEON
 
 URL de base : `https://workout-api-eqyt.kennhosting.app`.
 Les chemins ci-dessous s'ajoutent à cette URL, sans préfixe `/api`.
+Exemple de requête GET: https://workout-api-eqyt.kennhosting.app/workouts
 Les requêtes POST et PATCH utilisent un corps JSON avec l'en-tête `Content-Type: application/json`.
 
 ### État du service
@@ -57,9 +58,12 @@ Il n'existe pas de route PATCH pour les associations : pour modifier les séries
 
 Exemple pour consulter tous les entraînements :
 
-```http
-GET https://workout-api-eqyt.kennhosting.app/workouts
-```
+## Repository Pattern
+Le pattern Repository regroupe les accès à la base de données dans des fichiers dédiés, pour garder les contrôleurs simples et organisés.
+Cette séparation apporte plusieurs avantages comme:
+    - Une meilleure lisibilité
+    - Une meilleure réutilisation
+    - Une meilleure maintenance
 
 ## Déploiement
 
