@@ -1,6 +1,6 @@
 import express from 'express';
 import {config} from "dotenv";
-import {connectDB, disconnectDB} from "./config/db.js";
+import { prisma, connectDB, disconnectDB } from "./config/db.js";
 
 // Import routes
 import exerciceRoute from "./routes/exerciceRoute.js";
@@ -21,6 +21,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/health", healthRoute);
 app.use("/exercices", exerciceRoute);
 app.use("/workouts", workoutRoute);
+
+
+app.get("/debug/database", async (req, res) => {
+    try {
+        const result = await prisma.$queryRaw`
+            SELECT
+                current_database() AS database,
+                current_schema() AS schema,
+                to_regclass('public."Exercice"')::text AS exercice_table
+        `;
+
+        res.json(result[0]);
+    } catch (error) {
+        console.error("Database diagnostic failed:", error);
+
+        res.status(500).json({
+            error: "Database diagnostic failed"
+        });
+    }
+});
+
 
 // Unmatched routes, then errors from all routes and middleware.
 app.use(notFound);
