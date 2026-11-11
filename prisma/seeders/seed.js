@@ -1,12 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import "dotenv/config";
-
-const adapter = new PrismaPg({
-    connectionString: process.env.DATABASE_URL,
-});
-
-const prisma = new PrismaClient({ adapter });
+import seedRepository from "../../src/repositories/SeedRepository.js";
+import {disconnectDB} from "../../src/config/db.js";
 
 // Identifiants stables pour pouvoir relancer le seed sans doublons.
 const exercices = [
@@ -79,32 +72,7 @@ const workouts = [
 ];
 
 const main = async () => {
-    const operations = exercices.map((exercice) =>
-        prisma.exercice.upsert({
-            where: { id: exercice.id },
-            update: { name: exercice.name, muscleGroup: exercice.muscleGroup },
-            create: exercice,
-        })
-    );
-
-    for (const { id, name, exercices: workoutExercices } of workouts) {
-        operations.push(prisma.workout.upsert({
-            where: { id },
-            update: { name },
-            create: { id, name },
-        }));
-
-        for (const { exerciceId, sets, repetitions } of workoutExercices) {
-            operations.push(prisma.workout_Exercices.upsert({
-                where: { workoutId_exerciceId: { workoutId: id, exerciceId } },
-                update: { sets, repetitions },
-                create: { workoutId: id, exerciceId, sets, repetitions },
-            }));
-        }
-    }
-
-    // Tout est enregistré ensemble, ou annulé si une opération échoue.
-    await prisma.$transaction(operations);
+    await seedRepository.seed(exercices, workouts);
     console.log("Seed finished : 15 exercices, 5 workouts with their association.");
 };
 
@@ -114,6 +82,6 @@ main()
         process.exitCode = 1;
     })
     .finally(async () => {
-        await prisma.$disconnect();
+        await disconnectDB();
     });
 
