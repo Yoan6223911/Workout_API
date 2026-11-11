@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import {config} from "dotenv";
 import { prisma, connectDB, disconnectDB } from "./config/db.js";
 
@@ -12,6 +13,13 @@ config();
 connectDB();
 
 const app = express();
+
+// Allow browser clients from any origin.
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'HEAD', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+}));
 
 // Body parsing middlwares
 app.use(express.json());
