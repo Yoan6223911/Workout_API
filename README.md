@@ -86,8 +86,8 @@ Pour appliquer les migrations séparément depuis le terminal de l'hébergeur :
 ## Utilisation de l'IA
 
 L'IA a été utilisée particulièrement pour les validations, l'implémentation
-du design patern repository et enfin pour la rédaction/schématisation du diagrame
-de la base de donnée.
+du design patern repository, pour la rédaction/schématisation du diagrame
+de la base de donnée et enfin pour ce README.md
 
 ## Autres sources
 
