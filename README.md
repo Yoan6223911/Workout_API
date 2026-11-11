@@ -94,3 +94,4 @@ de la base de donnée et enfin pour ce README.md
 Les sources qui m'ont permis de mener à bien ce projet en dehors de l'IA 
 sont notamment une vidéo YouTube : https://www.youtube.com/watch?v=g09PoiCob4Y et du repo git de la vidéo
 https://github.com/machadop1407/NodeJS-ExpressJS-BackendCourse.
+Documentation sur KennHosting en lien avec l'hébergement : https://docs.kennhosting.com/hebergemen
